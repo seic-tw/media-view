@@ -136,6 +136,26 @@ details.qg li{margin-bottom:4px}
 .note-box{background:#fdf6e3;border:1px solid #eadfb8;border-radius:4px;padding:10px 14px;font-size:13px;color:#5c4d12;margin-top:10px}
 .mindset{font-size:13px;color:#555;background:#f4f4f4;border-radius:4px;padding:8px 12px;margin-bottom:10px}
 @media (max-width:640px){.slot{flex-direction:column;gap:4px}.slot-who{text-align:left}}
+@media (max-width:640px){
+  .m-stack,.m-stack tbody,.m-stack tr,.m-stack td{display:block;width:100%}
+  .m-stack tr.m-head{display:none}
+  .m-stack tr{border:1px solid var(--line);border-radius:6px;margin-bottom:12px;overflow:hidden;background:#fff}
+  .m-stack td{border:0;border-top:1px dashed #eee}
+  .m-stack td:first-child{border-top:0}
+  .m-stack td::before{content:attr(data-label);display:block;font-size:11px;font-weight:700;color:#999;letter-spacing:1px;margin-bottom:3px}
+  .m-stack td.m-empty{display:none}
+  .m-stack .thumb{max-width:100%;max-height:none}
+  .m-stack tr.seg-blue,.m-stack tr.p-a1{border-left:4px solid var(--blue)}
+  .m-stack tr.seg-mud{border-left:4px solid var(--mud)}
+  .m-stack tr.seg-pink,.m-stack tr.p-a2{border-left:4px solid var(--pink)}
+  .m-stack tr.seg-gold,.m-stack tr.p-gold{border-left:4px solid var(--gold)}
+  .m-stack tr.p-prep{border-left:4px solid #999}
+  .m-stack tr.p-bbc{border-left:4px solid #555}
+  .m-stack tr.p-end{border-left:4px solid #ccc}
+  .m-stack td:first-child[data-label]{border-left:0!important}
+  .slot{flex-wrap:wrap}
+  .slot-who{min-width:0;width:100%;text-align:left;color:#888}
+}
 </style></head><body>
 <header><div class="inner">
 <h1>UD '60 系列｜16吋青少年 形象拍攝企劃</h1>
@@ -320,5 +340,20 @@ function tab(n,btn){
   btn.classList.add('on');
 }
 function tgq(id){ document.getElementById(id).classList.toggle('show'); }
+</script>
+<script>
+(function(){
+  document.querySelectorAll('table').forEach(function(t){
+    var rows=t.rows; if(!rows.length) return;
+    var head=rows[0]; if(!head.querySelector('th')) return;
+    var labels=[]; Array.prototype.forEach.call(head.cells,function(c){var n=c.colSpan||1;for(var i=0;i<n;i++)labels.push(c.textContent.trim());});
+    t.classList.add('m-stack'); head.classList.add('m-head');
+    for(var r=1;r<rows.length;r++){var ci=0;Array.prototype.forEach.call(rows[r].cells,function(td){
+      if(labels[ci]&&(td.colSpan||1)===1) td.setAttribute('data-label',labels[ci]);
+      ci+=td.colSpan||1;
+      if(!td.textContent.trim()&&!td.querySelector('img')) td.classList.add('m-empty');
+    });}
+  });
+})();
 </script>
 </body></html>
